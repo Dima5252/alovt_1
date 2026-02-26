@@ -1,77 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project source="2.7.1" version="1.0">
-  <lib desc="#Wiring" name="0"/>
-  <lib desc="#Gates" name="1"/>
-  <lib desc="#Memory" name="4"/>
-  <lib desc="#I/O" name="5"/>
-  <lib desc="#Base" name="6">
-    <tool name="Text Tool">
-      <a name="text" val=""/>
-      <a name="font" val="SansSerif plain 12"/>
-      <a name="halign" val="center"/>
-      <a name="valign" val="base"/>
+  <lib desc="#Wiring" name="0">
+    <tool name="Splitter">
+      <a name="fanout" val="8"/>
+      <a name="incoming" val="8"/>
+      <a name="appear" val="right"/>
     </tool>
   </lib>
+  <lib desc="#Gates" name="1"/>
+  <lib desc="#Memory" name="4"/>
   <main name="main"/>
-  <options>
-    <a name="gateUndefined" val="ignore"/>
-    <a name="simlimit" val="1000"/>
-    <a name="simrate" val="1000"/>
-    <a name="toolbarloc" val="north"/>
-  </options>
   <circuit name="main">
     <a name="circuit" val="main"/>
     <a name="clabel" val=""/>
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="SansSerif plain 12"/>
-    <!-- Пины ввода: Данные (8 бит), Clock и Enable -->
-    <comp lib="0" loc="(120,120)" name="Pin">
+
+    <!-- Входы -->
+    <comp lib="0" loc="(100,100)" name="Pin">
       <a name="width" val="8"/>
       <a name="tristate" val="false"/>
       <a name="label" val="Data_In"/>
     </comp>
-    <comp lib="0" loc="(120,180)" name="Pin">
+    <comp lib="0" loc="(100,200)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="CLK"/>
     </comp>
-    <comp lib="0" loc="(120,220)" name="Pin">
+    <comp lib="0" loc="(100,240)" name="Pin">
       <a name="tristate" val="false"/>
-      <a name="label" val="Enable"/>
+      <a name="label" val="EN"/>
     </comp>
-    
-    <!-- Разделитель шины (Splitter) для распределения 8 бит по триггерам -->
-    <comp lib="0" loc="(180,120)" name="Splitter">
+
+    <!-- Сплиттер входной шины -->
+    <comp lib="0" loc="(140,100)" name="Splitter">
       <a name="fanout" val="8"/>
       <a name="incoming" val="8"/>
     </comp>
 
-    <!-- Массив из 8 D-триггеров -->
-    <comp lib="4" loc="(300,50)" name="D Flip-Flop"/>
-    <comp lib="4" loc="(300,100)" name="D Flip-Flop"/>
-    <comp lib="4" loc="(300,150)" name="D Flip-Flop"/>
-    <comp lib="4" loc="(300,200)" name="D Flip-Flop"/>
-    <comp lib="4" loc="(300,250)" name="D Flip-Flop"/>
-    <comp lib="4" loc="(300,300)" name="D Flip-Flop"/>
-    <comp lib="4" loc="(300,350)" name="D Flip-Flop"/>
-    <comp lib="4" loc="(300,400)" name="D Flip-Flop"/>
+    <!-- 8 D-триггеров с соединениями -->
+    <!-- Bit 0 -->
+    <comp lib="4" loc="(260,40)" name="D Flip-Flop"/>
+    <wire from="(160,20)" to="(220,20)"/><wire from="(220,20)" to="(220,40)"/>
+    <!-- Bit 1 -->
+    <comp lib="4" loc="(260,80)" name="D Flip-Flop"/>
+    <wire from="(160,30)" to="(210,30)"/><wire from="(210,30)" to="(210,80)"/><wire from="(210,80)" to="(220,80)"/>
+    <!-- Bit 2 -->
+    <comp lib="4" loc="(260,120)" name="D Flip-Flop"/>
+    <wire from="(160,40)" to="(200,40)"/><wire from="(200,40)" to="(200,120)"/><wire from="(200,120)" to="(220,120)"/>
+    <!-- Bit 3 -->
+    <comp lib="4" loc="(260,160)" name="D Flip-Flop"/>
+    <wire from="(160,50)" to="(190,50)"/><wire from="(190,50)" to="(190,160)"/><wire from="(190,160)" to="(220,160)"/>
+    <!-- Bit 4 -->
+    <comp lib="4" loc="(260,200)" name="D Flip-Flop"/>
+    <wire from="(160,60)" to="(180,60)"/><wire from="(180,60)" to="(180,200)"/><wire from="(180,200)" to="(220,200)"/>
+    <!-- Bit 5 -->
+    <comp lib="4" loc="(260,240)" name="D Flip-Flop"/>
+    <wire from="(160,70)" to="(170,70)"/><wire from="(170,70)" to="(170,240)"/><wire from="(170,240)" to="(220,240)"/>
+    <!-- Bit 6 -->
+    <comp lib="4" loc="(260,280)" name="D Flip-Flop"/>
+    <wire from="(160,80)" to="(160,280)"/><wire from="(160,280)" to="(220,280)"/>
+    <!-- Bit 7 -->
+    <comp lib="4" loc="(260,320)" name="D Flip-Flop"/>
+    <wire from="(160,90)" to="(150,90)"/><wire from="(150,90)" to="(150,320)"/><wire from="(150,320)" to="(220,320)"/>
 
-    <!-- Собиратель шины для вывода -->
-    <comp lib="0" loc="(450,120)" name="Splitter">
+    <!-- Разводка CLK (общая шина) -->
+    <wire from="(100,200)" to="(210,200)"/>
+    <wire from="(210,50)" to="(210,90)"/><wire from="(210,90)" to="(210,130)"/><wire from="(210,130)" to="(210,170)"/><wire from="(210,170)" to="(210,200)"/><wire from="(210,200)" to="(210,210)"/><wire from="(210,210)" to="(210,250)"/><wire from="(210,250)" to="(210,290)"/><wire from="(210,290)" to="(210,330)"/>
+    <wire from="(210,50)" to="(220,50)"/><wire from="(210,90)" to="(220,90)"/><wire from="(210,130)" to="(220,130)"/><wire from="(210,170)" to="(220,170)"/><wire from="(210,210)" to="(220,210)"/><wire from="(210,250)" to="(220,250)"/><wire from="(210,290)" to="(220,290)"/><wire from="(210,330)" to="(220,330)"/>
+
+    <!-- Разводка EN (Enable на каждый триггер снизу) -->
+    <wire from="(100,240)" to="(240,240)"/>
+    <wire from="(240,60)" to="(240,100)"/><wire from="(240,100)" to="(240,140)"/><wire from="(240,140)" to="(240,180)"/><wire from="(240,180)" to="(240,220)"/><wire from="(240,220)" to="(240,240)"/><wire from="(240,240)" to="(240,260)"/><wire from="(240,260)" to="(240,300)"/><wire from="(240,300)" to="(240,340)"/>
+
+    <!-- Выходной сплиттер -->
+    <comp lib="0" loc="(400,100)" name="Splitter">
       <a name="facing" val="west"/>
       <a name="fanout" val="8"/>
       <a name="incoming" val="8"/>
+      <a name="appear" val="right"/>
     </comp>
-    <comp lib="0" loc="(500,120)" name="Pin">
+    <wire from="(260,40)" to="(380,40)"/><wire from="(380,40)" to="(380,20)"/>
+    <wire from="(260,80)" to="(380,80)"/><wire from="(380,80)" to="(380,30)"/>
+    <wire from="(260,120)" to="(380,120)"/><wire from="(380,120)" to="(380,40)"/>
+    <wire from="(260,160)" to="(380,160)"/><wire from="(380,160)" to="(380,50)"/>
+    <wire from="(260,200)" to="(380,200)"/><wire from="(380,200)" to="(380,60)"/>
+    <wire from="(260,240)" to="(380,240)"/><wire from="(380,240)" to="(380,70)"/>
+    <wire from="(260,280)" to="(380,280)"/><wire from="(380,280)" to="(380,80)"/>
+    <wire from="(260,320)" to="(380,320)"/><wire from="(380,320)" to="(380,90)"/>
+
+    <comp lib="0" loc="(440,100)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
       <a name="width" val="8"/>
       <a name="label" val="Data_Out"/>
-      <a name="labelloc" val="east"/>
     </comp>
-
-    <!-- Текстовое описание -->
-    <comp lib="6" loc="(300,20)" name="Text">
-      <a name="text" val="8-Bit Synchronous Register"/>
-    </comp>
+    <wire from="(400,100)" to="(440,100)"/>
   </circuit>
 </project>
