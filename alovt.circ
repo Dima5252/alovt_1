@@ -1,99 +1,262 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project source="2.7.1" version="1.0">
-  <lib desc="#Wiring" name="0">
-    <tool name="Splitter">
-      <a name="fanout" val="8"/>
-      <a name="incoming" val="8"/>
-      <a name="appear" val="right"/>
-    </tool>
-  </lib>
-  <lib desc="#Gates" name="1"/>
-  <lib desc="#Memory" name="4"/>
-  <main name="main"/>
-  <circuit name="main">
-    <a name="circuit" val="main"/>
-    <a name="clabel" val=""/>
-    <a name="clabelup" val="east"/>
-    <a name="clabelfont" val="SansSerif plain 12"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<project source="logisim-evolution" version="2.15.0">
+  <lib desc="Base" name="0"/>
+  <lib desc="Gates" name="1"/>
+  <lib desc="Wiring" name="2"/>
+  <lib desc="Memory" name="3"/>
+  <lib desc="I/O" name="4"/>
 
-    <!-- Входы -->
-    <comp lib="0" loc="(100,100)" name="Pin">
-      <a name="width" val="8"/>
-      <a name="tristate" val="false"/>
-      <a name="label" val="Data_In"/>
+  <!-- ===================== DFF: D-триггер на И/ИЛИ/НЕ ===================== -->
+  <circuit name="DFF">
+    <!-- Пины -->
+    <comp lib="4" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="false"/>
+      <a name="label" val="D"/>
+      <a name="x" val="80"/>
+      <a name="y" val="80"/>
     </comp>
-    <comp lib="0" loc="(100,200)" name="Pin">
-      <a name="tristate" val="false"/>
+
+    <comp lib="4" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="false"/>
       <a name="label" val="CLK"/>
-    </comp>
-    <comp lib="0" loc="(100,240)" name="Pin">
-      <a name="tristate" val="false"/>
-      <a name="label" val="EN"/>
+      <a name="x" val="80"/>
+      <a name="y" val="120"/>
     </comp>
 
-    <!-- Сплиттер входной шины -->
-    <comp lib="0" loc="(140,100)" name="Splitter">
-      <a name="fanout" val="8"/>
-      <a name="incoming" val="8"/>
-    </comp>
-
-    <!-- 8 D-триггеров с соединениями -->
-    <!-- Bit 0 -->
-    <comp lib="4" loc="(260,40)" name="D Flip-Flop"/>
-    <wire from="(160,20)" to="(220,20)"/><wire from="(220,20)" to="(220,40)"/>
-    <!-- Bit 1 -->
-    <comp lib="4" loc="(260,80)" name="D Flip-Flop"/>
-    <wire from="(160,30)" to="(210,30)"/><wire from="(210,30)" to="(210,80)"/><wire from="(210,80)" to="(220,80)"/>
-    <!-- Bit 2 -->
-    <comp lib="4" loc="(260,120)" name="D Flip-Flop"/>
-    <wire from="(160,40)" to="(200,40)"/><wire from="(200,40)" to="(200,120)"/><wire from="(200,120)" to="(220,120)"/>
-    <!-- Bit 3 -->
-    <comp lib="4" loc="(260,160)" name="D Flip-Flop"/>
-    <wire from="(160,50)" to="(190,50)"/><wire from="(190,50)" to="(190,160)"/><wire from="(190,160)" to="(220,160)"/>
-    <!-- Bit 4 -->
-    <comp lib="4" loc="(260,200)" name="D Flip-Flop"/>
-    <wire from="(160,60)" to="(180,60)"/><wire from="(180,60)" to="(180,200)"/><wire from="(180,200)" to="(220,200)"/>
-    <!-- Bit 5 -->
-    <comp lib="4" loc="(260,240)" name="D Flip-Flop"/>
-    <wire from="(160,70)" to="(170,70)"/><wire from="(170,70)" to="(170,240)"/><wire from="(170,240)" to="(220,240)"/>
-    <!-- Bit 6 -->
-    <comp lib="4" loc="(260,280)" name="D Flip-Flop"/>
-    <wire from="(160,80)" to="(160,280)"/><wire from="(160,280)" to="(220,280)"/>
-    <!-- Bit 7 -->
-    <comp lib="4" loc="(260,320)" name="D Flip-Flop"/>
-    <wire from="(160,90)" to="(150,90)"/><wire from="(150,90)" to="(150,320)"/><wire from="(150,320)" to="(220,320)"/>
-
-    <!-- Разводка CLK (общая шина) -->
-    <wire from="(100,200)" to="(210,200)"/>
-    <wire from="(210,50)" to="(210,90)"/><wire from="(210,90)" to="(210,130)"/><wire from="(210,130)" to="(210,170)"/><wire from="(210,170)" to="(210,200)"/><wire from="(210,200)" to="(210,210)"/><wire from="(210,210)" to="(210,250)"/><wire from="(210,250)" to="(210,290)"/><wire from="(210,290)" to="(210,330)"/>
-    <wire from="(210,50)" to="(220,50)"/><wire from="(210,90)" to="(220,90)"/><wire from="(210,130)" to="(220,130)"/><wire from="(210,170)" to="(220,170)"/><wire from="(210,210)" to="(220,210)"/><wire from="(210,250)" to="(220,250)"/><wire from="(210,290)" to="(220,290)"/><wire from="(210,330)" to="(220,330)"/>
-
-    <!-- Разводка EN (Enable на каждый триггер снизу) -->
-    <wire from="(100,240)" to="(240,240)"/>
-    <wire from="(240,60)" to="(240,100)"/><wire from="(240,100)" to="(240,140)"/><wire from="(240,140)" to="(240,180)"/><wire from="(240,180)" to="(240,220)"/><wire from="(240,220)" to="(240,240)"/><wire from="(240,240)" to="(240,260)"/><wire from="(240,260)" to="(240,300)"/><wire from="(240,300)" to="(240,340)"/>
-
-    <!-- Выходной сплиттер -->
-    <comp lib="0" loc="(400,100)" name="Splitter">
-      <a name="facing" val="west"/>
-      <a name="fanout" val="8"/>
-      <a name="incoming" val="8"/>
-      <a name="appear" val="right"/>
-    </comp>
-    <wire from="(260,40)" to="(380,40)"/><wire from="(380,40)" to="(380,20)"/>
-    <wire from="(260,80)" to="(380,80)"/><wire from="(380,80)" to="(380,30)"/>
-    <wire from="(260,120)" to="(380,120)"/><wire from="(380,120)" to="(380,40)"/>
-    <wire from="(260,160)" to="(380,160)"/><wire from="(380,160)" to="(380,50)"/>
-    <wire from="(260,200)" to="(380,200)"/><wire from="(380,200)" to="(380,60)"/>
-    <wire from="(260,240)" to="(380,240)"/><wire from="(380,240)" to="(380,70)"/>
-    <wire from="(260,280)" to="(380,280)"/><wire from="(380,280)" to="(380,80)"/>
-    <wire from="(260,320)" to="(380,320)"/><wire from="(380,320)" to="(380,90)"/>
-
-    <comp lib="0" loc="(440,100)" name="Pin">
-      <a name="facing" val="west"/>
+    <comp lib="4" name="Pin">
+      <a name="facing" val="east"/>
       <a name="output" val="true"/>
-      <a name="width" val="8"/>
-      <a name="label" val="Data_Out"/>
+      <a name="label" val="Q"/>
+      <a name="x" val="360"/>
+      <a name="y" val="80"/>
     </comp>
-    <wire from="(400,100)" to="(440,100)"/>
+
+    <!-- S = D AND CLK -->
+    <comp lib="1" name="And">
+      <a name="x" val="160"/>
+      <a name="y" val="80"/>
+    </comp>
+
+    <!-- NOT D -->
+    <comp lib="1" name="Not">
+      <a name="x" val="140"/>
+      <a name="y" val="40"/>
+    </comp>
+
+    <!-- R = (NOT D) AND CLK -->
+    <comp lib="1" name="And">
+      <a name="x" val="200"/>
+      <a name="y" val="40"/>
+    </comp>
+
+    <!-- RS-защёлка на двух "NOR" (OR + NOT) -->
+    <!-- NOR1: Q_int = NOT( S OR Qbar_int ) -->
+    <comp lib="1" name="Or">
+      <a name="x" val="240"/>
+      <a name="y" val="80"/>
+    </comp>
+    <comp lib="1" name="Not">
+      <a name="x" val="280"/>
+      <a name="y" val="80"/>
+    </comp>
+
+    <!-- NOR2: Qbar_int = NOT( R OR Q_int ) -->
+    <comp lib="1" name="Or">
+      <a name="x" val="240"/>
+      <a name="y" val="40"/>
+    </comp>
+    <comp lib="1" name="Not">
+      <a name="x" val="280"/>
+      <a name="y" val="40"/>
+    </comp>
+
+    <!-- Соединения -->
+    <!-- D -> AND(S), NOT(D) -->
+    <wire from="(80,80)" to="(120,80)"/>
+    <wire from="(120,80)" to="(160,80)"/>
+    <wire from="(120,80)" to="(120,40)"/>
+    <wire from="(120,40)" to="(140,40)"/>
+
+    <!-- NOT D -> AND(R) -->
+    <wire from="(160,40)" to="(200,40)"/>
+
+    <!-- CLK -> AND(S) и AND(R) -->
+    <wire from="(80,120)" to="(140,120)"/>
+    <wire from="(140,120)" to="(160,100)"/>
+    <wire from="(140,120)" to="(200,60)"/>
+
+    <!-- Выход AND(S) -> OR(S) -->
+    <wire from="(180,80)" to="(240,80)"/>
+
+    <!-- Выход AND(R) -> OR(R) -->
+    <wire from="(220,40)" to="(240,40)"/>
+
+    <!-- OR(S) -> NOT(S) (Q_int) -->
+    <wire from="(260,80)" to="(280,80)"/>
+
+    <!-- OR(R) -> NOT(R) (Qbar_int) -->
+    <wire from="(260,40)" to="(280,40)"/>
+
+    <!-- Обратные связи RS-защёлки -->
+    <!-- Q_int -> OR(R) -->
+    <wire from="(300,80)" to="(300,60)"/>
+    <wire from="(300,60)" to="(240,60)"/>
+
+    <!-- Qbar_int -> OR(S) -->
+    <wire from="(300,40)" to="(300,60)"/>
+    <wire from="(300,60)" to="(240,60)"/>
+
+    <!-- Q_int -> выход Q -->
+    <wire from="(300,80)" to="(360,80)"/>
+  </circuit>
+
+  <!-- ===================== REG8: 8-битный регистр ===================== -->
+  <circuit name="REG8">
+    <!-- Входная шина D[7:0] -->
+    <comp lib="4" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="false"/>
+      <a name="label" val="D[7:0]"/>
+      <a name="bitwidth" val="8"/>
+      <a name="x" val="80"/>
+      <a name="y" val="80"/>
+    </comp>
+
+    <!-- Выходная шина Q[7:0] -->
+    <comp lib="4" name="Pin">
+      <a name="facing" val="east"/>
+      <a name="output" val="true"/>
+      <a name="label" val="Q[7:0]"/>
+      <a name="bitwidth" val="8"/>
+      <a name="x" val="520"/>
+      <a name="y" val="80"/>
+    </comp>
+
+    <!-- CLK -->
+    <comp lib="4" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="false"/>
+      <a name="label" val="CLK"/>
+      <a name="x" val="80"/>
+      <a name="y" val="200"/>
+    </comp>
+
+    <!-- Разветвитель входной шины D -->
+    <comp lib="2" name="Splitter">
+      <a name="x" val="140"/>
+      <a name="y" val="80"/>
+      <a name="facing" val="east"/>
+      <a name="fanout" val="8"/>
+      <a name="bitwidth" val="8"/>
+      <a name="incoming" val="8"/>
+      <a name="outgoing0" val="1"/>
+      <a name="outgoing1" val="1"/>
+      <a name="outgoing2" val="1"/>
+      <a name="outgoing3" val="1"/>
+      <a name="outgoing4" val="1"/>
+      <a name="outgoing5" val="1"/>
+      <a name="outgoing6" val="1"/>
+      <a name="outgoing7" val="1"/>
+    </comp>
+
+    <!-- Разветвитель выходной шины Q -->
+    <comp lib="2" name="Splitter">
+      <a name="x" val="460"/>
+      <a name="y" val="80"/>
+      <a name="facing" val="west"/>
+      <a name="fanout" val="8"/>
+      <a name="bitwidth" val="8"/>
+      <a name="incoming" val="8"/>
+      <a name="outgoing0" val="1"/>
+      <a name="outgoing1" val="1"/>
+      <a name="outgoing2" val="1"/>
+      <a name="outgoing3" val="1"/>
+      <a name="outgoing4" val="1"/>
+      <a name="outgoing5" val="1"/>
+      <a name="outgoing6" val="1"/>
+      <a name="outgoing7" val="1"/>
+    </comp>
+
+    <!-- Соединение шины D с разветвителем -->
+    <wire from="(80,80)" to="(140,80)"/>
+
+    <!-- Соединение шины Q с разветвителем -->
+    <wire from="(520,80)" to="(460,80)"/>
+
+    <!-- 8 экземпляров DFF -->
+    <!-- Бит 0 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="260"/>
+      <a name="y" val="40"/>
+    </comp>
+    <!-- Бит 1 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="260"/>
+      <a name="y" val="80"/>
+    </comp>
+    <!-- Бит 2 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="260"/>
+      <a name="y" val="120"/>
+    </comp>
+    <!-- Бит 3 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="260"/>
+      <a name="y" val="160"/>
+    </comp>
+    <!-- Бит 4 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="340"/>
+      <a name="y" val="40"/>
+    </comp>
+    <!-- Бит 5 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="340"/>
+      <a name="y" val="80"/>
+    </comp>
+    <!-- Бит 6 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="340"/>
+      <a name="y" val="120"/>
+    </comp>
+    <!-- Бит 7 -->
+    <comp lib="0" name="DFF">
+      <a name="x" val="340"/>
+      <a name="y" val="160"/>
+    </comp>
+
+    <!-- Провода от разветвителя D к D входам DFF (0..7) -->
+    <!-- Здесь координаты условные, в Logisim можно подправить визуально -->
+    <wire from="(160,60)" to="(260,40)"/>   <!-- D0 -->
+    <wire from="(160,70)" to="(260,80)"/>   <!-- D1 -->
+    <wire from="(160,80)" to="(260,120)"/>  <!-- D2 -->
+    <wire from="(160,90)" to="(260,160)"/>  <!-- D3 -->
+    <wire from="(160,100)" to="(340,40)"/>  <!-- D4 -->
+    <wire from="(160,110)" to="(340,80)"/>  <!-- D5 -->
+    <wire from="(160,120)" to="(340,120)"/> <!-- D6 -->
+    <wire from="(160,130)" to="(340,160)"/> <!-- D7 -->
+
+    <!-- CLK ко всем DFF -->
+    <wire from="(80,200)" to="(260,200)"/>
+    <wire from="(260,200)" to="(260,60)"/>
+    <wire from="(260,200)" to="(260,100)"/>
+    <wire from="(260,200)" to="(260,140)"/>
+    <wire from="(260,200)" to="(260,180)"/>
+    <wire from="(260,200)" to="(340,60)"/>
+    <wire from="(260,200)" to="(340,100)"/>
+    <wire from="(260,200)" to="(340,140)"/>
+    <wire from="(260,200)" to="(340,180)"/>
+
+    <!-- Q выходы DFF к разветвителю Q -->
+    <wire from="(280,40)" to="(460,60)"/>   <!-- Q0 -->
+    <wire from="(280,80)" to="(460,70)"/>   <!-- Q1 -->
+    <wire from="(280,120)" to="(460,80)"/>  <!-- Q2 -->
+    <wire from="(280,160)" to="(460,90)"/>  <!-- Q3 -->
+    <wire from="(360,40)" to="(460,100)"/>  <!-- Q4 -->
+    <wire from="(360,80)" to="(460,110)"/>  <!-- Q5 -->
+    <wire from="(360,120)" to="(460,120)"/> <!-- Q6 -->
+    <wire from="(360,160)" to="(460,130)"/> <!-- Q7 -->
   </circuit>
 </project>
